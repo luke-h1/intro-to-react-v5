@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import pet, { ANIMALS } from "@frontendmasters/pet";
-import useDropdown from "./useDropdown";
-import Results from "./Results";
+import React, { useState, useEffect } from 'react';
+import pet, { ANIMALS } from '@frontendmasters/pet';
+import useDropdown from './useDropdown';
+import Results from './Results';
 
 const SearchParams = () => {
-  const [location, updateLocation] = useState("Seattle, WA");
+  const [location, updateLocation] = useState('Seattle, WA');
   const [breeds, updateBreeds] = useState([]);
   const [pets, setPets] = useState([]);
-  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, updateBreed] = useDropdown("Breed", "", breeds);
+  const [animal, AnimalDropdown] = useDropdown('Animal', 'dog', ANIMALS);
+  const [breed, BreedDropdown, updateBreed] = useDropdown('Breed', '', breeds);
 
   async function requestPets() {
     const { animals } = await pet.animals({
       location,
       breed,
-      type: animal
+      type: animal,
     });
 
-    console.log("animals", animals);
+    console.log('animals', animals);
 
     setPets(animals || []);
   }
 
   useEffect(() => {
     updateBreeds([]);
-    updateBreed("");
+    updateBreed('');
 
     pet.breeds(animal).then(({ breeds }) => {
       const breedStrings = breeds.map(({ name }) => name);
@@ -35,7 +35,7 @@ const SearchParams = () => {
   return (
     <div className="search-params">
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           requestPets();
         }}
@@ -46,7 +46,7 @@ const SearchParams = () => {
             id="location"
             value={location}
             placeholder="Location"
-            onChange={e => updateLocation(e.target.value)}
+            onChange={(e) => updateLocation(e.target.value)}
           />
         </label>
         <AnimalDropdown />
